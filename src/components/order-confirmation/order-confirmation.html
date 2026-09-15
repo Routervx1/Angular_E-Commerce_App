@@ -1,0 +1,59 @@
+@if (order(); as o) {
+  <div class="confirmation-page">
+    <div class="check-badge">🐾</div>
+    <h1>Thank you, {{ o.shipping.fullName.split(' ')[0] }}!</h1>
+    <p class="lead">Your order has been placed and is being prepared for shipping.</p>
+
+    <div class="order-card">
+      <div class="order-meta">
+        <span>Order number</span>
+        <strong>{{ o.id }}</strong>
+      </div>
+      <div class="order-meta">
+        <span>Placed on</span>
+        <strong>{{ o.placedAt | date: 'medium' }}</strong>
+      </div>
+      <div class="order-meta">
+        <span>Shipping to</span>
+        <strong>{{ o.shipping.address }}, {{ o.shipping.city }} {{ o.shipping.postalCode }}, {{ o.shipping.country }}</strong>
+      </div>
+
+      <hr />
+
+      <ul class="order-lines">
+        @for (line of o.lines; track line.product.id) {
+          <li>
+            <span>{{ line.product.emoji }} {{ line.product.name }} × {{ line.quantity }}</span>
+            <span>{{ line.product.price * line.quantity | number: '1.2-2' }} USD</span>
+          </li>
+        }
+      </ul>
+
+      <hr />
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>{{ o.subtotal | number: '1.2-2' }} USD</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span>{{ o.shippingCost === 0 ? 'Free' : (o.shippingCost | number: '1.2-2') + ' USD' }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Tax</span>
+        <span>{{ o.tax | number: '1.2-2' }} USD</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total paid</span>
+        <span>{{ o.total | number: '1.2-2' }} USD</span>
+      </div>
+    </div>
+
+    <a routerLink="/" class="primary-btn">Continue shopping</a>
+  </div>
+} @else {
+  <div class="confirmation-page">
+    <h1>No recent order found</h1>
+    <a routerLink="/" class="primary-btn">Back to shop</a>
+  </div>
+}

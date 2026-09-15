@@ -1,0 +1,96 @@
+.confirmation-page {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.check-badge {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: #fff3e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+}
+
+.confirmation-page h1 {
+  color: #3a2e26;
+  margin-bottom: 0.4rem;
+}
+
+.lead {
+  color: #7a6a5c;
+  margin-bottom: 1.6rem;
+}
+
+.order-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.4rem;
+  text-align: left;
+  box-shadow: 0 1px 3px rgba(60, 45, 30, 0.08);
+  margin-bottom: 1.6rem;
+}
+
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+  color: #6b5c4f;
+  font-size: 0.88rem;
+}
+
+.order-card hr {
+  border: none;
+  border-top: 1px solid #f3ece0;
+  margin: 0.8rem 0;
+}
+
+.order-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.order-lines li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: #6b5c4f;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  color: #6b5c4f;
+  font-size: 0.9rem;
+}
+
+.summary-row.total {
+  font-weight: 700;
+  color: #3a2e26;
+  font-size: 1.05rem;
+}
+
+.primary-btn {
+  display: inline-block;
+  background: #d97a3c;
+  color: white;
+  text-decoration: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.primary-btn:hover {
+  background: #c2652a;
+}
