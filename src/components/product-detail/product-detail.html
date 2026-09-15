@@ -1,0 +1,56 @@
+@if (product(); as p) {
+  <div class="detail-wrap">
+    <a class="back-link" routerLink="/">← Back to shop</a>
+
+    <div class="detail-grid">
+      <div class="detail-thumb" [style.background]="p.color">
+        <span>{{ p.emoji }}</span>
+        @if (!p.inStock) {
+          <span class="stock-flag">Out of stock</span>
+        }
+      </div>
+
+      <div class="detail-info">
+        <span class="product-category">{{ p.category }}</span>
+        <h1>{{ p.name }}</h1>
+        <div class="rating">⭐ {{ p.rating }} <span class="review-count">({{ p.reviewCount }} reviews)</span></div>
+        <p class="description">{{ p.description }}</p>
+
+        <div class="tag-row">
+          @for (tag of p.tags; track tag) {
+            <span class="tag">#{{ tag }}</span>
+          }
+        </div>
+
+        <div class="price-row">
+          <span class="price">{{ p.price | number: '1.2-2' }} USD</span>
+        </div>
+
+        @if (p.inStock) {
+          <div class="qty-row">
+            <span>Quantity</span>
+            <div class="qty-stepper">
+              <button type="button" (click)="decrement()" [disabled]="quantity() <= 1">−</button>
+              <span>{{ quantity() }}</span>
+              <button type="button" (click)="increment()" [disabled]="quantity() >= 20">+</button>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button type="button" class="secondary-btn" (click)="addToCart()">
+              {{ justAdded() ? 'Added to cart ✓' : 'Add to cart' }}
+            </button>
+            <button type="button" class="primary-btn" (click)="goToCart()">Buy now</button>
+          </div>
+        } @else {
+          <p class="unavailable">This item is currently out of stock. Check back soon!</p>
+        }
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="not-found">
+    <h2>We couldn't find that product 🐾</h2>
+    <a routerLink="/">Back to the shop</a>
+  </div>
+}
