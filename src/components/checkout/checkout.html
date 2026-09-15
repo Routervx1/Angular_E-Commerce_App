@@ -1,0 +1,141 @@
+@if (lines().length === 0) {
+  <div class="empty-checkout">
+    <p>There's nothing to check out yet.</p>
+    <a routerLink="/" class="primary-btn">Back to shop</a>
+  </div>
+} @else {
+  <div class="checkout-page">
+    <form class="checkout-form" [formGroup]="form" (ngSubmit)="submit()">
+      <h1>Checkout</h1>
+
+      <section class="form-section">
+        <h2>Shipping details</h2>
+
+        <label>
+          Full name
+          <input type="text" formControlName="fullName" placeholder="Jamie Rivera" />
+          @if (isInvalid('fullName')) {
+            <span class="error">Please enter your full name.</span>
+          }
+        </label>
+
+        <label>
+          Email
+          <input type="email" formControlName="email" placeholder="jamie@example.com" />
+          @if (isInvalid('email')) {
+            <span class="error">Please enter a valid email.</span>
+          }
+        </label>
+
+        <label>
+          Street address
+          <input type="text" formControlName="address" placeholder="123 Bark Avenue" />
+          @if (isInvalid('address')) {
+            <span class="error">Please enter your address.</span>
+          }
+        </label>
+
+        <div class="field-row">
+          <label>
+            City
+            <input type="text" formControlName="city" placeholder="Pawtucket" />
+            @if (isInvalid('city')) {
+              <span class="error">Required.</span>
+            }
+          </label>
+
+          <label>
+            Postal code
+            <input type="text" formControlName="postalCode" placeholder="12345" />
+            @if (isInvalid('postalCode')) {
+              <span class="error">Required.</span>
+            }
+          </label>
+        </div>
+
+        <label>
+          Country
+          <select formControlName="country">
+            <option>United States</option>
+            <option>Canada</option>
+            <option>United Kingdom</option>
+            <option>Australia</option>
+            <option>Germany</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="form-section">
+        <h2>Payment</h2>
+
+        <label>
+          Name on card
+          <input type="text" formControlName="cardName" placeholder="Jamie Rivera" />
+          @if (isInvalid('cardName')) {
+            <span class="error">Required.</span>
+          }
+        </label>
+
+        <label>
+          Card number
+          <input type="text" inputmode="numeric" formControlName="cardNumber" placeholder="4242424242424242" />
+          @if (isInvalid('cardNumber')) {
+            <span class="error">Enter a valid card number (13–19 digits).</span>
+          }
+        </label>
+
+        <div class="field-row">
+          <label>
+            Expiry (MM/YY)
+            <input type="text" formControlName="expiry" placeholder="08/29" />
+            @if (isInvalid('expiry')) {
+              <span class="error">Use MM/YY format.</span>
+            }
+          </label>
+
+          <label>
+            CVC
+            <input type="text" inputmode="numeric" formControlName="cvc" placeholder="123" />
+            @if (isInvalid('cvc')) {
+              <span class="error">3–4 digits.</span>
+            }
+          </label>
+        </div>
+
+        <p class="demo-note">This is a demo checkout — no real payment is processed.</p>
+      </section>
+
+      <button type="submit" class="primary-btn place-order-btn">Place order · {{ total() | number: '1.2-2' }} USD</button>
+    </form>
+
+    <aside class="summary-card">
+      <h2>Order summary</h2>
+
+      <ul class="mini-lines">
+        @for (line of lines(); track line.product.id) {
+          <li>
+            <span>{{ line.product.emoji }} {{ line.product.name }} × {{ line.quantity }}</span>
+            <span>{{ line.product.price * line.quantity | number: '1.2-2' }} USD</span>
+          </li>
+        }
+      </ul>
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>{{ subtotal() | number: '1.2-2' }} USD</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span>{{ shippingCost() === 0 ? 'Free' : (shippingCost() | number: '1.2-2') + ' USD' }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Tax</span>
+        <span>{{ tax() | number: '1.2-2' }} USD</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>{{ total() | number: '1.2-2' }} USD</span>
+      </div>
+    </aside>
+  </div>
+}
