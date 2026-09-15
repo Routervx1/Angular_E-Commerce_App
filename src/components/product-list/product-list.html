@@ -1,0 +1,64 @@
+<section class="hero">
+  <div class="hero-text">
+    <h1>Everything your pet deserves 🐾</h1>
+    <p>Toys, beds, tanks and treats hand-picked for dogs, cats, fish, birds and small furry friends.</p>
+  </div>
+</section>
+
+<section class="controls">
+  <input
+    class="search-input"
+    type="search"
+    placeholder="Search products or tags…"
+    [value]="searchTerm()"
+    (input)="onSearch($any($event.target).value)"
+  />
+
+  <div class="category-pills">
+    @for (cat of categories; track cat) {
+      <button
+        type="button"
+        class="pill"
+        [class.active]="activeCategory() === cat"
+        (click)="onCategorySelect(cat)"
+      >
+        {{ cat }}
+      </button>
+    }
+  </div>
+</section>
+
+<section class="product-grid">
+  @for (product of products(); track product.id) {
+    <a class="product-card" [routerLink]="['/product', product.id]">
+      <div class="product-thumb" [style.background]="product.color">
+        <span>{{ product.emoji }}</span>
+        @if (!product.inStock) {
+          <span class="stock-flag">Out of stock</span>
+        }
+      </div>
+      <div class="product-info">
+        <span class="product-category">{{ product.category }}</span>
+        <h3>{{ product.name }}</h3>
+        <div class="rating">
+          <span>⭐ {{ product.rating }}</span>
+          <span class="review-count">({{ product.reviewCount }})</span>
+        </div>
+        <div class="product-footer">
+          <span class="price">{{ product.price | number: '1.2-2' }} USD</span>
+          <button
+            type="button"
+            class="add-btn"
+            [class.added]="recentlyAddedId() === product.id"
+            [disabled]="!product.inStock"
+            (click)="addToCart(product, $event)"
+          >
+            {{ recentlyAddedId() === product.id ? 'Added ✓' : 'Add to cart' }}
+          </button>
+        </div>
+      </div>
+    </a>
+  } @empty {
+    <p class="empty-state">No products match your search. Try a different term or category.</p>
+  }
+</section>
