@@ -1,0 +1,67 @@
+<div class="cart-page">
+  <h1>Your cart</h1>
+
+  @if (lines().length === 0) {
+    <div class="empty-cart">
+      <p>Your cart is empty. Time to spoil a pet! 🐾</p>
+      <a routerLink="/" class="primary-btn">Browse products</a>
+    </div>
+  } @else {
+    <div class="cart-layout">
+      <ul class="cart-lines">
+        @for (line of lines(); track line.product.id) {
+          <li class="cart-line">
+            <div class="line-thumb" [style.background]="line.product.color">{{ line.product.emoji }}</div>
+
+            <div class="line-info">
+              <a [routerLink]="['/product', line.product.id]" class="line-name">{{ line.product.name }}</a>
+              <span class="line-category">{{ line.product.category }}</span>
+            </div>
+
+            <div class="qty-stepper">
+              <button type="button" (click)="decrement(line.product.id, line.quantity)">−</button>
+              <span>{{ line.quantity }}</span>
+              <button type="button" (click)="increment(line.product.id, line.quantity)">+</button>
+            </div>
+
+            <span class="line-price">{{ line.product.price * line.quantity | number: '1.2-2' }} USD</span>
+
+            <button type="button" class="remove-btn" (click)="remove(line.product.id)" aria-label="Remove item">✕</button>
+          </li>
+        }
+      </ul>
+
+      <aside class="summary-card">
+        <h2>Order summary</h2>
+
+        @if (amountUntilFreeShipping() > 0) {
+          <p class="free-shipping-note">
+            Add {{ amountUntilFreeShipping() | number: '1.2-2' }} USD more to unlock free shipping!
+          </p>
+        } @else {
+          <p class="free-shipping-note earned">🎉 You've unlocked free shipping!</p>
+        }
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>{{ subtotal() | number: '1.2-2' }} USD</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>{{ shippingCost() === 0 ? 'Free' : (shippingCost() | number: '1.2-2') + ' USD' }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax</span>
+          <span>{{ tax() | number: '1.2-2' }} USD</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>{{ total() | number: '1.2-2' }} USD</span>
+        </div>
+
+        <a routerLink="/checkout" class="primary-btn checkout-btn">Proceed to checkout</a>
+        <a routerLink="/" class="continue-link">Continue shopping</a>
+      </aside>
+    </div>
+  }
+</div>
